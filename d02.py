@@ -67,3 +67,54 @@ def find_checksum():
 
 print("Checksum :", find_checksum())
 
+# --- Part Two ---
+# Confident that your list of box IDs is complete, you're ready to find the
+# boxes full of prototype fabric.
+#
+# The boxes will have IDs which differ by exactly one character at the same
+# position in both strings. For example, given the following box IDs:
+#
+# abcde
+# fghij
+# klmno
+# pqrst
+# fguij
+# axcye
+# wvxyz
+# The IDs abcde and axcye are close, but they differ by two characters (the
+# second and fourth). However, the IDs fghij and fguij differ by exactly one
+# character, the third (h and u). Those must be the correct boxes.
+#
+# What letters are common between the two correct box IDs? (In the example
+# above, this is found by removing the differing character from either ID,
+# producing fgij.)
+
+
+def difference_count(id_1, id_2):
+    diff = 0
+    for i in range(len(id_1)):
+        if id_1[i] != id_2[i]:
+
+            # short circuit break when difference is more than 1
+            if diff == 1:
+                return -1
+
+            diff += 1
+
+    return diff
+
+
+def remove_diff_letter(id_1, id_2):
+    for i in range(len(id_1)):
+        if id_1[i] != id_2[i]:
+            return id_1[:i] + id_1[i+1:]
+
+
+def find_correct_boxes():
+    for box_id_1 in data:
+        for box_id_2 in data:
+            if difference_count(box_id_1, box_id_2) == 1:
+                return remove_diff_letter(box_id_1, box_id_2)
+
+
+print("Correct box ID :", find_correct_boxes())
