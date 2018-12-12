@@ -26,6 +26,7 @@ state = parse_initial_state(data[0])
 rules = parse_rules(data[2:])
 
 
+# find the sequence of 5 pots to the left and right of [index]
 def get_pots(index):
     left_1 = state.get(index - 2) or empty_symbol
     left_2 = state.get(index - 1) or empty_symbol
@@ -47,6 +48,7 @@ def process_generation():
     return new_state
 
 
+# create at least three empty pots at the left and right edges
 def fill_pots():
     global state
     filled_pots = sorted(filter(lambda x: state.get(x) == full_symbol, state.keys()))
@@ -67,13 +69,36 @@ def fill_pots():
             state.setdefault(max_state + 1 + p, empty_symbol)
 
 
-for generation in range(50000000000):
+def find_sum():
+    sum = 0
+    for index, pot in state.items():
+        if pot == full_symbol:
+            sum += index
+    return sum
+
+
+previous_sum = 0
+previous_difference = -1
+fifty_billion = 50000000000
+
+for generation in range(fifty_billion):
     fill_pots()
     state = process_generation()
+    result = find_sum()
 
-result = 0
-for index, pot in state.items():
-    if pot == full_symbol:
-        result += index
+    if generation == 20:
+        print("Generation 20 :", result)
 
+    difference = result - previous_sum
+    if difference == previous_difference:
+        # search for the converging generation
+        print("Generation :", generation, ", Current result :", result, ", Difference :", difference)
+        break
+
+    previous_sum = result
+    previous_difference = difference
+
+# add 1 as generation starts from 0 instead of 1
+result += (fifty_billion - (generation + 1)) * difference
 print(result)
+
