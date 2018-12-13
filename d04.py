@@ -1,6 +1,9 @@
+# --- Day 4: Repose Record ---
 with open('d04-input.txt', 'r') as f:
     data = f.readlines()
 
+
+############################# Parsing data #############################
 
 def parse_record(record):
     record = record.split("]")
@@ -26,8 +29,6 @@ def parse_message(msg):
     elif event == "w":
         return "wake",
 
-
-############################# Parsing data #############################
 
 # sort the data
 data = [parse_record(r) for r in data]
@@ -59,6 +60,7 @@ for record in data:
     elif record_type == "wake":
         sleep_wake_times.add((sleep_start_time, record_minute - 1))
         sleep_start_time = -1
+
 #####################################################################
 
 
