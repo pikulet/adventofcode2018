@@ -62,7 +62,7 @@ for record in data:
 #####################################################################
 
 
-# Part 1a: Find guard with the most sleep
+# Part 4a: Find guard with the most sleep
 def calculate_sleep_minutes(sleep_periods):
     return sum([r[1] - r[0] + 1 for r in sleep_periods])
 
@@ -87,3 +87,31 @@ for r in sleepy_guard_records:
 best_minute = minutes_asleep.index(max(minutes_asleep))
 result = int(sleepy_guard) * best_minute
 print(result)
+
+#####################################################################
+
+# Part 4b: Find guard with the most frequency asleep on the same minute
+def find_highest_minute(data):
+    minutes_asleep = [0] * 60
+    for r in data:
+        for period in r:
+            for minute in range(period[0], period[1] + 1):
+                minutes_asleep[minute] += 1
+    return minutes_asleep.index(max(minutes_asleep)), max(minutes_asleep)
+
+
+highest_freq = 0
+best_guard = -1
+best_minute = -1
+
+for guard_id, data in sleep_record.items():
+    minute, freq = find_highest_minute([x[1] for x in data])
+    if freq > highest_freq:
+        highest_freq = freq
+        best_guard = guard_id
+        best_minute = minute
+
+result = int(best_guard) * best_minute
+print(result)
+
+
