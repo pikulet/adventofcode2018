@@ -10,7 +10,8 @@ def part_one():
     elf_1 = 0
     elf_2 = 1
 
-    while len(recipe) < recipe_end + 10:
+    recipe_end_index = int(recipe_end)
+    while len(recipe) < recipe_end_index + 10:
         elf_1_cook = recipe[elf_1]
         elf_2_cook = recipe[elf_2]
         score_sum = elf_1_cook + elf_2_cook
@@ -20,9 +21,11 @@ def part_one():
         elf_1 = (elf_1 + elf_1_cook + 1) % len(recipe)
         elf_2 = (elf_2 + elf_2_cook + 1) % len(recipe)
 
-    result = "".join([str(x) for x in recipe[recipe_end: recipe_end + 10]])
+    result = "".join([str(x) for x in recipe[recipe_end_index: recipe_end_index + 10]])
     print(result)
 
+
+# How many recipes appear on the scoreboard to the left of the score sequence in your puzzle input?
 
 def part_two():
     recipe = [3, 7]
@@ -54,4 +57,5 @@ def part_two():
     print(result)
 
 
+part_one()
 part_two()
